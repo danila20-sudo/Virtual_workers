@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Virtual Workers</title>
+    <link rel="stylesheet" href="assets/css/bootstrap-grid.min.css"/>
+    <link rel="stylesheet" href="assets/css/main.css"/>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="container-fluid">
+        <a href="#" class="navbar-brand">
+          <svg width="239" height="33" viewbox="0 0 239 33" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <rect x="0.99707" width="238" height="32.2046" fill="url(#pattern0)"/>
+            <defs>
+              <pattern id="pattern0" patterncontentunits="objectBoundingBox" width="1" height="1">
+                <use xlink:href="#image0" transform="scale(0.00330033 0.0243902)"/>
+              </pattern>
+              <image id="image0" width="303" height="41" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAS8AAAApCAYAAABk8K9xAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA3ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDYuMC1jMDAyIDc5LjE2NDM2MCwgMjAyMC8wMi8xMy0wMTowNzoyMiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1MWVmN2Q0YS02ZTg5LWNiNDktODBmNS1mOGEzZWViZTM5MDciIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NjRGNkU5NDZBRUU2MTFFQTg4Q0NCOTM1N0I5NzIwNzgiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NjRGNkU5NDVBRUU2MTFFQTg4Q0NCOTM1N0I5NzIwNzgiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTggKFdpbmRvd3MpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NTFlZjdkNGEtNmU4OS1jYjQ5LTgwZjUtZjhhM2VlYmUzOTA3IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjUxZWY3ZDRhLTZlODktY2I0OS04MGY1LWY4YTNlZWJlMzkwNyIv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"/>
+            </defs>
+          </svg>
+        </a>
+        <div class="navbar-collapse">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#">For Workers</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">For Employers</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">How It Works</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Blog</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 20 20" fill="none">
+                  <path d="M19.669 4.5559L15.2281 0.114855C15.0749 -0.0382849 14.8275 -0.0382849 14.6744 0.114855L14.3956 0.393632L12.452 2.33733L2.0389 12.7508C1.98785 12.8019 1.95251 12.8686 1.93287 12.9393L0.542876 18.7704C0.511464 18.9039 0.550733 19.0413 0.644969 19.1395C0.743131 19.2377 0.880632 19.2769 1.01413 19.2455L6.84493 17.8555C6.91561 17.8398 6.97842 17.8044 7.02947 17.7495L19.6611 5.11741C19.8221 4.95642 19.8221 4.70904 19.669 4.5559ZM4.93278 17.4942C4.5951 15.6605 3.048 14.9341 2.32159 14.6945L2.66718 13.2495L4.1631 13.3791L4.32022 15.1932C4.32414 15.2403 4.34373 15.2835 4.37515 15.3149C4.40656 15.3463 4.44977 15.366 4.49689 15.3699L6.31098 15.527L6.45228 17.129L4.93278 17.4942ZM6.82135 16.8463L6.68791 15.3346C6.68006 15.2403 6.60547 15.1657 6.50731 15.1579L4.69322 15.0008L4.53619 13.1867C4.52834 13.0924 4.45366 13.0178 4.35943 13.01L3.0048 12.8922L13.0017 2.89491L16.889 6.78231L6.82135 16.8463Z" fill="white"/>
+                  <path d="M5.63553 12.7353L5.65912 12.7588C5.72981 12.8295 5.84375 12.8295 5.91443 12.7588L13.4347 5.23928C13.5053 5.1686 13.5053 5.05472 13.4347 4.98404L13.4111 4.96048C13.3404 4.8898 13.2265 4.8898 13.1559 4.96048L5.63553 12.48C5.56485 12.5507 5.56485 12.6646 5.63553 12.7353Z" fill="white"/>
+                  <path d="M7.03494 14.1209L7.05852 14.1445C7.1292 14.2152 7.24303 14.2152 7.31371 14.1445L14.833 6.625C14.9037 6.55432 14.9037 6.44046 14.833 6.36978L14.8094 6.34622C14.7387 6.27554 14.6249 6.27554 14.5542 6.34622L7.03494 13.8657C6.96426 13.9364 6.96426 14.0503 7.03494 14.1209Z" fill="white"/>
+                  <path d="M9.55657 19.5873L9.34452 19.607C9.40734 19.5049 9.48589 19.3989 9.55657 19.2968C9.80002 18.9669 10.0592 18.6371 10.3183 18.3112L10.3222 18.3072C10.3537 18.2641 10.3693 18.2091 10.3575 18.1541C10.3379 18.0481 10.2359 17.9813 10.1338 18.001L7.91909 18.4211C7.18088 18.5586 6.44271 18.6999 5.70843 18.857L3.5016 19.3164C2.76732 19.4813 2.03309 19.6345 1.30273 19.8112C2.0488 19.7169 2.79091 19.5991 3.53698 19.497L5.76336 19.1436C6.5055 19.0298 7.2477 18.9002 7.98591 18.7706L9.70181 18.4683C9.54867 18.6646 9.39556 18.8648 9.24635 19.0729C9.12462 19.2536 9.00284 19.4067 8.89682 19.6502C8.88897 19.6855 8.86156 19.7169 8.87334 19.8308C8.88904 19.9368 9.01068 20.0075 9.08136 19.9996C9.101 19.9996 9.12462 19.9957 9.14425 19.9918L9.15997 19.9879C9.12463 19.9957 9.15211 19.9918 9.14818 19.9918H9.15604L9.31307 19.9761L9.62329 19.9447C10.0395 19.9054 10.4557 19.8544 10.8719 19.8269C11.2842 19.7955 11.7005 19.768 12.1168 19.7248L14.6101 19.501C15.4426 19.4146 16.279 19.34 17.1115 19.2418C15.4308 19.2614 13.7659 19.3282 12.0814 19.4106C11.2332 19.4578 10.389 19.5127 9.55657 19.5873ZM9.05395 19.6345H9.05788H9.06181C9.06181 19.6345 9.05787 19.6345 9.05395 19.6345Z" fill="white"/></svg>Sign Up</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <svg width="15" height="20" viewbox="0 0 15 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M14.0576 10.6326C13.2426 10.3494 11.4538 11.8861 10.5456 12.8185C10.4109 12.9566 10.3797 12.4835 10.4039 11.8861C10.4108 11.8343 10.3797 11.7825 10.3797 11.7307V11.6098C10.3797 11.1057 10.3797 10.5601 10.3797 10.2285V9.27544C12.4517 8.82307 14.1266 6.94105 14.1266 4.68953C14.1266 2.10304 12.0408 0 9.4508 0C6.86426 0 4.76808 2.10304 4.76808 4.68953C4.76808 5.96033 5.2481 7.11371 6.07344 7.95975C5.97675 8.1117 5.89041 8.29127 5.89041 8.48466V10.8121L5.54508 10.857V8.82998C5.54508 8.29127 5.17561 7.85616 4.63689 7.85616H4.51254C3.97382 7.85616 3.46971 8.29127 3.46971 8.82998V11.1264L3.12438 11.1713V10.2285C3.12438 9.68984 2.91022 9.23746 2.37496 9.23746H2.25068C1.71197 9.23746 1.05239 9.68984 1.05239 10.2285V10.2907V10.9814V11.4406L0.658668 14.7799C0.392763 15.6916 0.233907 17.8084 3.33153 19.7285C3.33153 19.7285 5.12381 20.6505 7.30976 19.0965C8.52187 18.2332 10.4488 16.365 11.9786 14.7799L12.9663 13.744C13.7053 12.9532 14.2337 12.3558 14.3407 12.19C14.6895 11.6686 14.617 10.826 14.0576 10.6326ZM9.63038 3.70879H9.5061C8.96739 3.70879 8.30773 4.16117 8.30773 4.69988V5.84291C7.9624 5.55283 7.83813 5.1419 7.83813 4.68607C7.83813 3.80549 8.5702 3.09067 9.4508 3.09067C10.3314 3.09067 11.0221 3.80549 11.0221 4.68607C11.0221 5.19715 10.725 5.64608 10.3797 5.93961V4.69988C10.3797 4.16117 10.1691 3.70879 9.63038 3.70879ZM10.3797 6.36089C11.0704 6.02247 11.3778 5.4009 11.3778 4.68607C11.3778 3.61556 10.5248 2.74534 9.4508 2.74534C8.37682 2.74534 7.48242 3.61556 7.48242 4.68607C7.48242 5.35255 7.95902 5.93961 8.30436 6.28839V7.45213C7.26836 7.01357 6.45334 5.9396 6.45334 4.68607C6.45334 3.04232 7.80701 1.70937 9.44734 1.70937C11.0911 1.70937 12.3999 3.04578 12.3999 4.68607C12.3999 5.9845 11.7577 7.08954 10.3763 7.49703V6.36089H10.3797ZM9.46808 0.341869C11.8647 0.341869 13.7813 2.28951 13.7813 4.68607C13.7813 6.74421 12.4517 8.47084 10.3797 8.91631V7.86307C11.761 7.44523 12.7591 6.17788 12.7591 4.68607C12.7591 2.85239 11.2845 1.36404 9.4508 1.36404C7.61709 1.36404 6.1011 2.85585 6.1011 4.68607C6.1011 6.13644 6.92303 7.36581 8.30436 7.82164V8.88868C8.30436 8.8576 8.30436 8.82307 7.95902 8.78509V8.48466C7.95902 7.94595 7.58948 7.51083 7.05076 7.51083H6.9264C6.70884 7.51083 6.50512 7.58681 6.34281 7.70767C5.58654 6.92378 5.11687 5.86018 5.11687 4.68953C5.12378 2.28952 7.07148 0.341869 9.46808 0.341869ZM7.9624 10.5393V9.14767C8.30773 9.18566 8.30773 9.21329 8.30773 9.24092V10.491L7.9624 10.5393Z" fill="white"/>
+                </svg>
+                Log in</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="main">
+      <div class="banner"></div>
+      <div class="popular-categories">
+        <h1>Popular Categories</h1>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-6 col-md-3">
+              <div class="item">
+                <h3>Design, Art & Multimedia</h3>
+                <p>(22 open positions)</p>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+              <div class="item">
+                <h3>Education Training</h3>
+                <p>(6 open positions)</p>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+              <div class="item">
+                <h3>Accounting / Finance</h3>
+                <p>(3 open positions)</p>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+              <div class="item">
+                <h3>Human Resource</h3>
+                <p>(3 open positions)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="banner-secondary">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <h1>
+                Helping the Filipino Community Find Safe, Reliable Work from Home
+                                                            Positions
+              </h1>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <p>
+                We live in an uncertain time – one that is changing by the day and
+                                                            requiring more individuals to think outside the box when seeking
+                                                            employment. "Business as usual" doesn't hold the same meaning as
+                                                            it did a year ago, requiring companies to outsource more positions
+                                                            than ever before.<br/>So, how do you find the right job or fill a
+                                                            position requiring outsourcing? By seeking out the help of a
+                                                            virtual assistant agency.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="funnel">
+        <h1>funnel and paid traffic…</h1>
+        <button>Without actually building a funnel or running ads!</button>
+      </div>
+      <div class="recent-jobs">
+        <h1>Recent Jobs</h1>
+        <p>Leading Employers already using job and talent.</p>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-12 col-md-4">
+              <div class="item">
+                <img src="./assets/image/icon-tv.png" class="mx-auto" alt="Icon"/>
+                <h3>Networking Engineer</h3>
+                <p>GUXOFT</p>
+                <div class="action">
+                  <span>Ukraine</span>
+                  <button type="button" class="border-green color-green">Full Time</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="item">
+                <img src="./assets/image/icon-line.png" class="mx-auto" alt="Icon"/>
+                <h3>Front End Developer</h3>
+                <p>Norson</p>
+                <div class="action">
+                  <span>Ukraine</span>
+                  <button type="button" class="border-red color-red">Temporary</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="item">
+                <img src="./assets/image/icon-cube.png" class="mx-auto" alt="Icon"/>
+                <h3 class="color-dark">Senior UX Designer</h3>
+                <p>NetSuite</p>
+                <div class="action">
+                  <span>Ukraine</span>
+                  <button type="button" class="border-red color-red">Temporary</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-4">
+              <div class="item">
+                <img src="./assets/image/icon-flusk.png" class="mx-auto" alt="Icon"/>
+                <h3>JEB Product Sales Specialist, Russia & CIS</h3>
+                <p>General Electric</p>
+                <div class="action">
+                  <span>Ukraine</span>
+                  <button type="button" class="border-blue color-blue">Part Time</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="item">
+                <img src="./assets/image/icon-circle.png" class="mx-auto" alt="Icon"/>
+                <h3>Technical Support Specialist</h3>
+                <p>Man Power Group</p>
+                <div class="action">
+                  <span>Ukraine</span>
+                  <button type="button" class="border-blue color-blue">Freelance</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="item">
+                <img src="./assets/image/icon-tv.png" class="mx-auto" alt="Icon"/>
+                <h3 class="color-dark">Networking Engineer</h3>
+                <p>GUXOFT</p>
+                <div class="action">
+                  <span>Ukraine</span>
+                  <button type="button" class="border-red color-red">Full Time</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="border-pink color-pink">Load more listings</button>
+      </div>
+      <div class="assistant-agency">
+        <h2>More Than Your Average Virtual Assistant Agency</h2>
+        <img src="./assets/image/New-Logo-Main-Index-(Updated) 1.png" alt=""/>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <p>
+                Whether you are looking for a virtual assistant or a skilled
+                                                            writer – we've got solutions across all industries.<br/><br/>
+                With virtual work becoming the new norm, job recruiters must have
+                                                            a place to find qualified candidates, whether it be someone to
+                                                            handle back-office work or a new web designer for your website.
+                <br/><br/>
+                Those searching for work also need a place to find jobs. There are
+                                                            many benefits of being a virtual assistant or seeking other remote
+                                                            employment, such as setting your hours and working from the
+                                                            comfort of your home.
+              </p>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <p>
+                However, it's not as simple as going online, filling out an
+                                                            application, and waiting for a phone call. Now, you must sift
+                                                            through the overwhelming number of online listings, trying to
+                                                            figure out what is a legitimate position and what is not.<br/><br/><u>The key for both recruiters and job seekers: knowing where to
+                                                                    go.</u><br/><br/>Recruiters need to know they can sift through
+                                                                  committed individuals with the necessary skills to get the job
+                                                                  done.<br/><br/>Job seekers need to know that they can check the
+                                                                  job board with confidence that the postings are real jobs that can
+                                                                  provide reliable work.
+              </p>
+            </div>
+          </div>
+        </div>
+        <h1>Single Payment of $27</h1>
+        <button>Ridiculous? Definitely... Short-sighted? We'll see.</button>
+      </div>
+      <div class="benefit">
+        <h1>Who Can Benefit from Our Services?</h1>
+        <p>
+          Virtual Workers' mission is to help the Filipino community find safe and
+                                    reliable work from home positions and help recruiters find serious
+                                    candidates that are ready to work. That said, both recruiters and job
+                                    seekers could benefit from our services.
+        </p>
+      </div>
+      <div class="recent-candidates">
+        <h1>Recent Candaites</h1>
+        <p>Leading Employers already using job and talent.</p>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-12 col-md-4">
+              <div class="item">
+                <img src="./assets/image/avatar.png" class="mx-auto" alt="Icon"/>
+                <h3>Networking Engineer</h3>
+                <p>GUXOFT</p>
+                <div class="action">
+                  <span>Ukraine</span>
+                  <button type="button" class="border-green color-green">Full Time</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="item">
+                <img src="./assets/image/avatar.png" class="mx-auto" alt="Icon"/>
+                <h3>Front End Developer</h3>
+                <p>Norson</p>
+                <div class="action">
+                  <span>Ukraine</span>
+                  <button type="button" class="border-red color-red">Temporary</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="item">
+                <img src="./assets/image/avatar.png" class="mx-auto" alt="Icon"/>
+                <h3 class="color-dark">Senior UX Designer</h3>
+                <p>NetSuite</p>
+                <div class="action">
+                  <span>Ukraine</span>
+                  <button type="button" class="border-red color-red">Temporary</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-4">
+              <div class="item">
+                <img src="./assets/image/avatar.png" class="mx-auto" alt="Icon"/>
+                <h3>JEB Product Sales Specialist, Russia & CIS</h3>
+                <p>General Electric</p>
+                <div class="action">
+                  <span>Ukraine</span>
+                  <button type="button" class="border-blue color-blue">Part Time</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="item">
+                <img src="./assets/image/avatar.png" class="mx-auto" alt="Icon"/>
+                <h3>Technical Support Specialist</h3>
+                <p>Man Power Group</p>
+                <div class="action">
+                  <span>Ukraine</span>
+                  <button type="button" class="border-blue color-blue">Freelance</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="item">
+                <img src="./assets/image/avatar.png" class="mx-auto" alt="Icon"/>
+                <h3 class="color-dark">Networking Engineer</h3>
+                <p>GUXOFT</p>
+                <div class="action">
+                  <span>Ukraine</span>
+                  <button type="button" class="border-red color-red">Full Time</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="border-pink color-pink">Load more listings</button>
+      </div>
+      <div class="seekers-recruiters">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <img src="./assets/image/seekers.png" alt=""/>
+              <div class="seekers">
+                <h1>Job Seekers!</h1>
+                <p>
+                  Looking for a new opportunity to work from home? Whatever the
+                                                                    situation, Virtual Workers is the best place to get started. Our
+                                                                    job boards include open positions across all industries,
+                                                                    ensuring that you'll find the best position for your skills.
+                                                                    Need help building your curriculum vitae? We offer free CV
+                                                                    templates to help you build a resume that will allow you to
+                                                                    stand out.
+                </p>
+                <button>Job Seekers Start Here</button>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <img src="./assets/image/recruiters.png" alt=""/>
+              <div class="recruiters">
+                <h1>Recruiters!</h1>
+                <p>
+                  As a brand recruiter, you already know the many benefits of
+                                                                    outsourcing a virtual assistant for data entry or
+                                                                    telecommunication tasks. More jobs have become remote, meaning
+                                                                    that your brand can reach out and select the most qualified
+                                                                    candidates, no matter where they are. By posting your open jobs
+                                                                    on Virtual Workers, you are sure to find the most qualified
+                                                                    candidates who are eager to get to work.
+                </p>
+                <button>Recruiters Start Here</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="works-how">
+        <h1>How It Works</h1>
+        <p>
+          At Virtual Workers, we provide a safe space for both recruiters and job
+                                    seekers. We understand that navigating the job market is difficult,
+                                    which is why we are building an all-inclusive community that benefits
+                                    everyone.
+        </p>
+        <img src="./assets/image/New-Logo-Main-Index-(Updated) 1.png" alt="Logo"/>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="job-info">
+                <img src="./assets/image/Rectangle.png" class="mx-auto" alt="Avatar"/>
+                <p>
+                  Recruiters register their account and then post their open
+                                                                    positions on our job board and list all the necessary
+                                                                    information, such as:
+                </p>
+                <ul>
+                  <li>Job Title</li>
+                  <li>Description of the Position</li>
+                  <li>Experience/Skills Required</li>
+                  <li>Pay/Salary</li>
+                  <li>Contact Information and more</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <div class="job-info">
+                <img src="./assets/image/Rectangle.png" class="mx-auto" alt="Avatar"/>
+                <p>
+                  For job seekers, you will register your account and build your
+                                                                    curriculum vitae. From there, you can start browsing the jobs
+                                                                    currently posted. When searching the Virtual Worker's job board,
+                                                                    you can search by:
+                </p>
+                <ul>
+                  <li>Recently Posted Jobs</li>
+                  <li>Job Type.</li>
+                  <li>Offered Salary</li>
+                  <li>Job Category</li>
+                  <li>Industry and more</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="improve-business">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <img src="./assets/image/AdobeStock_210940773-[Converted] 1.png" alt="Book Image">
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <h1>5 Ways To IMPROVE YOUR BUSINESS USING VIRTUAL WORKERS</h1>
+              <div class="free-info">Free Report</div>
+              <p>We have generated over $1.33 billion in sales with the 5 unbelievably powerful strategies outlined in this free report. Download it now before this page comes down or your competitors get their hands on it.</p>
+
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <input type="text">
+                  </div>
+                  <div class="col-sm-6">
+                    <input type="text">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <input type="text">
+                  </div>
+                  <div class="col-sm-6">
+                    <input type="text">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="online-home">
+        <h1>Online Home-Based Jobs for 2020 and Beyond</h1>
+        <p>
+          Whether you are looking for an online home-based job or to hire new talent for your company, our virtual assistant agency is here to help.
+                    Virtual Workers is a community filled with like-minded individuals who understand times are changing, and the job market is unlikely to return to "business as usual." Let us help you find the right candidate for your open position or the right work from home job that suits your skill set.
+        </p>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-6 col-md-2">
+            <h3>For Candidates</h3>
+            <ul>
+              <li>Browse Jobs</li>
+              <li>Browse Categories</li>
+              <li>Candidate Dashboard</li>
+              <li>Job Alerts</li>
+              <li>My Bookmarks</li>
+            </ul>
+          </div>
+          <div class="col-sm-6 col-md-2">
+            <h3>For Employers</h3>
+            <ul>
+              <li>Browse Candidates</li>
+              <li>Employer Dashboard</li>
+              <li>Add Job</li>
+              <li>Job Packages</li>
+            </ul>
+          </div>
+          <div class="col-sm-6 col-md-2">
+            <h3>Other</h3>
+            <ul>
+              <li>Job Page</li>
+              <li>Job Page Alternative</li>
+              <li>Resume Page</li>
+              <li>Blog</li>
+              <li>Contact</li>
+            </ul>
+          </div>
+          <div class="col-sm-6 col-md-2">
+            <h3>Legal</h3>
+            <ul>
+              <li>Privacy Policy</li>
+              <li>Terms of Use</li>
+              <li>FAQ</li>
+            </ul>
+          </div>
+          <div class="col-sm-12 col-md-4">
+            <h3>Sign Up For a Newsletter</h3>
+            <p>Weekly breaking news, analysis and cutting edge advices on job searching.</p>
+              <div class="form">
+                  <input type="text" class="col-sm-8" name="search" id="search">
+                  <button type="button" class="col-sm-4">Send</button>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-text">© VirtualWorkers.Ph. All Rights Reserved.</div>
+    </div>
+  </body>
+</html>
